@@ -2,8 +2,9 @@ const User = require("../models/User");
 const Note = require("../models/Note");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");    
 
-const getAllUser = asyncHandler(async (req, res)=>{
+const getUserDetails = asyncHandler(async (req, res) => {
     const users = await User.find().select("-password").lean();
     if(!users || users.length == 0){
         return res.status(400).json({message:"No users available"});
@@ -11,78 +12,74 @@ const getAllUser = asyncHandler(async (req, res)=>{
     res.json(users);
 })
 
-const createNewUser = asyncHandler(async (req, res)=>{
-    const { username, password, roles } = req.body;
-    if(!username || !password || !Array.isArray(roles) || !roles.length){
-        return res.status(400).json({message: "All fields are required"});
-    }
-    const user = await User.findOne({username}).lean().exec();
-    if(user){
-        return res.status(409).json({message: "User already exists"});
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userObject = { username, "password" : hashedPassword, roles };
 
+//signup
+const createNewUser = asyncHandler(async (req, res) => {
+    const { emailId, password } = req.body;
+    const user = await User.find({ emailId });
+    if (user.length > 0) {
+        return res.status(400).json({ message: "User already available" });
+    }
+    hashedPassword = await bcrypt.hash(password, 10);
+    let userObject = {
+        "emailId": emailId,
+        "password": hashedPassword
+    };
     const newUser = await User.create(userObject);
-    if(newUser){
-        res.status(200).json({message: `New User ${username} created`});
+    if (newUser) {
+        res.status(200).json({ message: `New User ${newUser.emailId} created` });
     }
-    else{
-        res.status(400).json({message: "Invalid user data recieved"});
+    else {
+        res.status(400).json({ message: "Invalid user data recieved" });
     }
+
 
 })
 
-const updateUser = asyncHandler(async (req, res)=>{
+//Profile update
+const updateUser = asyncHandler(async (req, res) => {
+    const { firstName, lastName, roles, mobileNumber, emailId, age, country,
+        state, token } = req.body;
+    const JWT_sec = process.env.JWTSEC;
+    const tok2usr = jwt.verify(token, JWT_sec); 
+    const usr_email = tok2usr.emailId;
+    const userObject = {
+        firstName, lastName, roles, mobileNumber, emailId, age, country, 
+        state
+    };
     
-    const { id, username, password, roles, active } = req.body;
+    if(Boolean(firstName) && Boolean(lastName) && Boolean(roles) && Boolean(mobileNumber) && Boolean(emailId) && Boolean(age) && Boolean(country) && Boolean(state)){        
+    const user = User.findOneAndUpdate({ "email": usr_email }, {"$set": userObject}).exec((err, data)=>{
+        if(err)
+            return res.status(500).json({message: err});
+        else
+            return res.status(200).json({message: "The update has been recorded", profile: data});
 
-    if(!username || !Array.isArray(roles) || !roles.length || !active || !id || typeof active !== 'boolean'){
-        return res.status(400).json({message: "All fields are required"});
+    });
     }
-
-    const user = await User.findById(id).exec();
-    if(!user){
-        return res.status(400).json({message: "User not found"});
-    }
-    const duplicate =await User.findOne({username}).lean().exec();
-
-    if(duplicate && duplicate._id.toString() !== id){
-        return res.status(409).json({message: "User already there with this username"});
-    }
-
-    user.username = username
-    user.roles = roles
-    user.active = active
-
-    if(password){
-        user.password = await bcrypt.hash(password, 10);
-    }
-    const updatedUser = await user.save();
-
-    res.json(200).json({message: `${updatedUser.username} Updated`});
+    else
+        return res.status(500).json({message: "All fields are required"});
 })
 
-const deleteUser = asyncHandler(async (req, res)=>{
-    const { id } = req.body;
-    if(!id){
-        return res.status(400).json({message: "User ID required"});
+const deleteUser = asyncHandler(async (req, res) => {
+    const { token } = req.body;
+    const JWT_sec = process.env.JWTSEC;
+    const tok2usr = jwt.verify(token, JWT_sec);
+    const id = tok2usr.id;
+    if (!id) {
+        return res.status(400).json({ message: "User ID required" });
     }
-
-    const notes = await Note.findOne({user: id}).lean().exec();
-    if(notes?.length){
-        return res.status(400).json({message: "User has assigned notes"});
-    }
-
+    // const notes = await Note.findOne({ user: id }).lean().exec();
+    // if (notes?.length) {
+    //     return res.status(400).json({ message: "User has assigned notes" });
+    // }
     const user = await User.findById(id).exec();
-    if(!user){
-        return res.status(400).json({message: "User not found"});
+    if (!user) {
+        return res.status(400).json({ message: "User not found" });
     }
-
     const result = await user.deleteOne();
-
-    res.json({message: `Userame ${result.username} with ID ${result.id} deleted`});
+    res.json({ message: `Userame ${result.emailId} with ID ${result.id} deleted` });
 })
 
 
-module.exports = {getAllUser, createNewUser, updateUser, deleteUser};
+module.exports = { getUserDetails, createNewUser, updateUser, deleteUser };
