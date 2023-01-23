@@ -3,7 +3,7 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const notesSchema = new mongoose.Schema(
     {
-        user: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'User'
@@ -12,14 +12,14 @@ const notesSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        text: {
+        content: {
             type: String,
             default: "Employee",
             required: true
         },
-        completed: {
-            type: Boolean,
-            default: false
+        tags: {
+            type: Array,
+            required: true
         },
 
     },

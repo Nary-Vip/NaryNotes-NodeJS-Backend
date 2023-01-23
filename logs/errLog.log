@@ -12,3 +12,6 @@
 20230123	18:42:53	10a8ed64-7f4a-409a-8f13-32c5147dd83c	ValidationError: user validation failed: emailId: Path `emailId` is required.	POST	/users	undefined
 20230123	18:44:09	7e5aa755-cd3e-44a2-b0a8-a4666c223c65	ReferenceError: JWT_sec is not defined	DELETE	/users	undefined
 20230123	18:44:29	6e4c18dd-5cb1-4ce8-98a9-c37f11909073	JsonWebTokenError: jwt must be provided	DELETE	/users	undefined
+20230123	19:39:42	40dd4993-1cd1-440c-b470-25ce2dfa71d2	MongooseError: Query was already executed: userNote.findOne({ userId: new ObjectId("63ce88da457c592fd00...	GET	/notes/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U4OGRhNDU3YzU5MmZkMDBiODg3NyIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzQ0Nzk4Mzl9.GtcM51bNEDnRL4PCfhtZkbiyT7sZn4vTRfZVnua07YM	undefined
+20230123	19:57:07	15b2f3dc-4696-4489-9a34-bdf9af416ef5	TypeError: Note.findAll is not a function	GET	/notes/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U4OGRhNDU3YzU5MmZkMDBiODg3NyIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzQ0Nzk4Mzl9.GtcM51bNEDnRL4PCfhtZkbiyT7sZn4vTRfZVnua07YM	undefined
+20230123	20:03:53	be84f48e-b01b-4a7c-b92b-cc881a80a313	ReferenceError: id is not defined	DELETE	/notes	undefined
