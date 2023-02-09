@@ -2,14 +2,31 @@ const User = require("../models/User");
 const Note = require("../models/Note");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");    
+const jwt = require("jsonwebtoken");
 
 const getUserDetails = asyncHandler(async (req, res) => {
-    const users = await User.find().select("-password").lean();
-    if(!users || users.length == 0){
-        return res.status(400).json({message:"No users available"});
+    const { token } = req.query;
+    const JWT_sec = process.env.JWTSEC;
+    const tok2usr = jwt.verify(token, JWT_sec);
+    const id = tok2usr.id;
+    const user = await User.findById(id).select("-password");
+    if (!user || user.length == 0) {
+        return res.status(400).json({ message: "No users available" });
     }
-    res.json(users);
+    let obj = {
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "age": user.age,
+        "country": user.country,
+        "state": user.state,
+        "roles": user.roles,
+        "mobileNumber": user.mobileNumber,
+        "emailId": user.emailId,
+        "access_token": token,
+        "profileStatus": (user.firstName === undefined || user.lastName === undefined || user.age === undefined || user.country === undefined
+            || user.state === undefined || user.roles === undefined || user.mobileNumber === undefined || user.emailId === undefined) ? false : true
+    }
+    res.status(200).json({"user": obj});
 })
 
 
@@ -41,24 +58,28 @@ const updateUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, roles, mobileNumber, emailId, age, country,
         state, token } = req.body;
     const JWT_sec = process.env.JWTSEC;
-    const tok2usr = jwt.verify(token, JWT_sec); 
+    const tok2usr = jwt.verify(token, JWT_sec);
     const usr_email = tok2usr.emailId;
-    const userObject = {
-        firstName, lastName, roles, mobileNumber, emailId, age, country, 
-        state
+    const obj = {
+        firstName, lastName, roles, mobileNumber, emailId, age, country,
+        state, token
     };
-    
-    if(Boolean(firstName) && Boolean(lastName) && Boolean(roles) && Boolean(mobileNumber) && Boolean(emailId) && Boolean(age) && Boolean(country) && Boolean(state)){        
-    const user = User.findOneAndUpdate({ "email": usr_email }, {"$set": userObject}).exec((err, data)=>{
-        if(err)
-            return res.status(500).json({message: err});
-        else
-            return res.status(200).json({message: "The update has been recorded", profile: data});
+    const userObject = {
+        firstName, lastName, roles, mobileNumber, emailId, age, country,
+        state, 'access_token': token, 'profileStatus': true
+    };
 
-    });
+    if (Boolean(firstName) && Boolean(lastName) && Boolean(roles) && Boolean(mobileNumber) && Boolean(emailId) && Boolean(age) && Boolean(country) && Boolean(state)) {
+        const user = User.findOneAndUpdate({ "email": usr_email }, { "$set": obj }).exec((err, data) => {
+            if (err)
+                return res.status(500).json({ message: `err ${err}` });
+            else
+                return res.status(200).json({ message: "The update has been recorded", "user": userObject });
+
+        });
     }
     else
-        return res.status(500).json({message: "All fields are required"});
+        return res.status(500).json({ message: "All fields are required" });
 })
 
 const deleteUser = asyncHandler(async (req, res) => {

@@ -33,6 +33,7 @@ const userSchema = new mongoose.Schema({
     },
     profileUpdated: {
         type: Boolean,
+        default: false
     }
 });
 

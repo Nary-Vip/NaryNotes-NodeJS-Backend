@@ -15,3 +15,45 @@
 20230123	19:39:42	40dd4993-1cd1-440c-b470-25ce2dfa71d2	MongooseError: Query was already executed: userNote.findOne({ userId: new ObjectId("63ce88da457c592fd00...	GET	/notes/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U4OGRhNDU3YzU5MmZkMDBiODg3NyIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzQ0Nzk4Mzl9.GtcM51bNEDnRL4PCfhtZkbiyT7sZn4vTRfZVnua07YM	undefined
 20230123	19:57:07	15b2f3dc-4696-4489-9a34-bdf9af416ef5	TypeError: Note.findAll is not a function	GET	/notes/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2U4OGRhNDU3YzU5MmZkMDBiODg3NyIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzQ0Nzk4Mzl9.GtcM51bNEDnRL4PCfhtZkbiyT7sZn4vTRfZVnua07YM	undefined
 20230123	20:03:53	be84f48e-b01b-4a7c-b92b-cc881a80a313	ReferenceError: id is not defined	DELETE	/notes	undefined
+20230124	19:41:51	485cddfe-8d24-4184-a637-19ef0e93f2a5	JsonWebTokenError: jwt must be provided	PATCH	/users	http://localhost:3000
+20230124	19:52:23	56690126-9ca5-49f5-a6ec-7db60d7bdeb7	JsonWebTokenError: jwt must be provided	PATCH	/users	http://localhost:3000
+20230129	15:37:13	5f211358-5e74-4d79-b6c6-95b3d30f3335	JsonWebTokenError: jwt must be provided	POST	/notes	http://localhost:3000
+20230129	15:37:13	323024d3-5c15-4281-a5e0-2c6713d41574	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230129	15:38:12	2a309833-4e30-4056-8fca-51486039c639	JsonWebTokenError: jwt must be provided	POST	/notes	http://localhost:3000
+20230129	15:38:12	727667b8-bbf9-46c1-86ea-a07a371a97ec	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230131	15:20:32	6bda4fa7-0140-4f03-98eb-85bf17c04384	ReferenceError: User is not defined	PATCH	/notes	http://localhost:3000
+20230131	18:14:11	48d155a3-6592-493e-8757-3b2bc0591b43	ValidationError: userNote validation failed: title: Path `title` is required., content: Path `content` is required.	POST	/notes	http://localhost:3000
+20230131	18:42:15	ae62fdec-0ea6-426e-9ab2-6cff0e600e2a	CastError: Cast to ObjectId failed for value "" (type string) at path "_id" for model "userNote"	DELETE	/notes	http://localhost:3000
+20230203	21:07:49	86cdf62f-886e-49a7-9072-3fa83ee83a77	ValidationError: userNote validation failed: color: Path `color` is required.	POST	/notes	undefined
+20230203	22:00:53	f01b9db1-2a92-420f-b7a4-7fd34382d770	ValidationError: userNote validation failed: title: Path `title` is required., content: Path `content` is required.	POST	/notes	undefined
+20230203	22:09:55	b3d54777-517c-4fcc-beaa-b752781fc7f9	ValidationError: userNote validation failed: title: Path `title` is required., content: Path `content` is required.	POST	/notes	undefined
+20230204	21:01:06	adf2c8ea-ebd8-4c2d-a3de-152a4b8b0b91	JsonWebTokenError: jwt must be provided	GET	/notes	undefined
+20230204	21:19:56	fc542551-0fcd-4fca-83d4-19c325fc2600	TypeError: Assignment to constant variable.	DELETE	/notes?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2NlOTNkMGZlN2IzMWZlZGE3NDkwOSIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzU1MjM2NzN9.7V2MHuiIEczjwWUUzvIC6_d8k0TqXNFhkv-qXM1tY0g&noteId=63d938aa199d0c7aea9ae1d9	undefined
+20230204	21:21:42	7335f919-c1ec-470a-9712-6fcbe9676af1	TypeError: Assignment to constant variable.	DELETE	/notes?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2NlOTNkMGZlN2IzMWZlZGE3NDkwOSIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzU1MjM2NzN9.7V2MHuiIEczjwWUUzvIC6_d8k0TqXNFhkv-qXM1tY0g&noteId=63d938aa199d0c7aea9ae1d9	undefined
+20230204	21:22:39	03f53a20-aa4f-43cf-977d-8730844b72e4	TypeError: Assignment to constant variable.	DELETE	/notes?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzY2NlOTNkMGZlN2IzMWZlZGE3NDkwOSIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAwMkBnbWFpbC5jb20iLCJpYXQiOjE2NzU1MjM2NzN9.7V2MHuiIEczjwWUUzvIC6_d8k0TqXNFhkv-qXM1tY0g&noteId=63d938aa199d0c7aea9ae1d9	undefined
+20230205	12:41:59	3d77b1a4-87c3-4903-bd6c-162932dc83a3	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230205	12:41:59	6b641e58-7822-45a3-a208-fbcc0fe79c55	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230206	20:29:47	6357a432-8fd3-47af-b9ba-10aa1180c6bb	ValidationError: userNote validation failed: title: Path `title` is required., content: Path `content` is required.	POST	/notes	http://localhost:3000
+20230206	20:29:56	1367283f-2d04-4337-a858-19c82a17d5b1	ValidationError: userNote validation failed: title: Path `title` is required., content: Path `content` is required.	POST	/notes	http://localhost:3000
+20230207	21:10:15	df4d0fa9-a7ab-4090-aa7e-711005f9c3c0	ReferenceError: emailId is not defined	GET	/users?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZGZjNGU5Yjk3ZWQ2MGVkZTFmNjRmYSIsImVtYWlsSWQiOiJuYXJlc2hrdW1hcjAxQGdtYWlsLmNvbSIsImlhdCI6MTY3NTc4NDI0OX0.ftNrZ7FmmdKm0DhhrX6Qdj7bK-OAtN1bYHA0Y2NmfKs	undefined
+20230209	14:43:09	5232eac0-f541-43c2-a471-af7916d7d13a	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:43:09	d3efc8b5-7e51-4b70-a4db-790976211fb1	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:49:30	97f5cca3-a414-470e-9e7b-4996e4a122e7	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:49:30	d8b0c15d-b5bd-41cf-974a-ebe189fbe314	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:52:09	176c2d8c-8527-4052-81ce-849064e4d303	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:52:09	16246eae-b04d-4bc5-b5a9-876fb1febfd7	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:53:47	e255c3f3-acf0-4cdf-a592-9ee2b374e90e	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	14:53:47	aef962bd-7262-4bbc-b702-4326ddb3e38e	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:28	1d62a110-ff7c-4a90-ae5e-cafed79bb123	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:28	de4baa95-f1cb-4b78-a034-86c70210fb4d	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:57	0ec323e5-8978-4aab-81c0-75cc73c991b3	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:57	261eec28-f24b-4975-81d2-59c1a498cf5b	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:59	c3ff9587-794f-4cb1-8829-1e8e18422fd4	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:59	2d8cb5ad-760e-46ff-a280-4c636a14e975	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:59	84cdb9e9-58ce-4e7d-92f8-2d777962c1f1	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:04:59	dd966616-f06c-45eb-bb2a-7f3daf0e7a19	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:05:01	5d527138-375c-41bf-98e3-672d1368e0af	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:05:01	b4a9fa87-af20-42ee-b5eb-bed6294424dd	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:05:27	5614786c-6cac-4541-821b-381c61531b0e	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:05:28	f4a28595-f5fb-453e-a867-670f887c5d2d	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	15:08:19	660d1a5d-f47f-4af4-991e-353245eec0b9	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000

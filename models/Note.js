@@ -21,6 +21,10 @@ const notesSchema = new mongoose.Schema(
             type: Array,
             required: true
         },
+        color:{
+            type: String,
+            required: true
+        }
 
     },
     {
