@@ -16,7 +16,7 @@ const getUserNotes = asyncHandler(async (req, res) => {
         else {
 
             if (data.length === 0)
-                return res.status(200).json({ message: "No Notes Available", notes: []});
+                return res.status(200).json({ message: "No Notes Available", notes: [] });
             else
                 return res.status(200).json({ message: "Notes Fetch Successful", notes: data });
         }
@@ -97,4 +97,50 @@ const deleteUserNotes = asyncHandler(async (req, res) => {
     res.json({ message: `Note ${result.title} with ID ${result.id} deleted` });
 });
 
-module.exports = { getUserNotes, addUserNotes, updateUserNotes, deleteUserNotes };
+//Get Note from audio
+const getNoteFromAudio = asyncHandler(async (req, response) => {
+    let transcribedText = null;
+    let bitRate = null;
+    let options = {
+        scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
+    }
+    PythonShell.run("speechToText.py", options, (err, res) => {
+        if (err) {
+            console.log(err);
+            response.status(500).json({ message: "Something went worng", "error": err });
+        } if (res) {
+            console.log(res);
+            transcribedText = res[0];
+            bitRate = res[1];
+            response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+        }
+    });
+});
+
+
+//Get Note from audio
+const postNoteFromAudio = asyncHandler( async (req, response) => {
+    // const { audio } = req.body;
+    // console.log(req.body);
+    console.log("==============");
+    console.log(req.file, "=========");
+
+    // let transcribedText = null;
+    // let bitRate = null;
+    // let options = {
+    //     scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
+    // }
+    // PythonShell.run("speechToText.py", options, (err, res) => {
+    //     if (err) {
+    //         console.log(err);
+    //         response.status(500).json({ message: "Something went worng", "error": err });
+    //     } if (res) {
+    //         console.log(res);
+    //         transcribedText = res[0];
+    //         bitRate = res[1];
+    //         response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+    //     }
+    // });
+});
+
+module.exports = { getUserNotes, addUserNotes, updateUserNotes, deleteUserNotes, getNoteFromAudio, postNoteFromAudio };

@@ -8,6 +8,19 @@ const { logger, logEvents } = require("./middleware/logger");
 const corsOptions = require("./config/corsOption");
 const connectDb = require('./config/dbConnection');
 const mongoose = require('mongoose');
+const multer  = require("multer");
+const { PythonShell } = require('python-shell');
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, 'model/');
+    },
+    filename: function (req, file, callback) {
+      callback(null, "recorder.wav");
+    }
+  })
+const upload = multer({ storage: storage });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +36,27 @@ app.use(cors(corsOptions));
 app.use(express.json()); //inbuilt middleware which enables the server to parse json data.
 
 // app.use(cookieParser()); //third party middleware
+
+app.post('/speechtext', upload.single("audioFile"), async (req, response) => {
+    console.log(req.file);
+    let transcribedText = null;
+    let bitRate = null;
+    let options = {
+        scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
+    }
+    PythonShell.run("speechToText.py", options, (err, res) => {
+        if (err) {
+            console.log(err);
+            response.status(500).json({ message: "Something went worng", "error": err });
+        } if (res) {
+            console.log(res);
+            transcribedText = res[0];
+            bitRate = res[1];
+            response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+        }
+    });
+});
+
 
 app.use("/", express.static(path.join(__dirname, '/public'),),)
 
@@ -44,6 +78,7 @@ app.use('*', (req, res) => {
         res.type('txt').send("404 not found");
     }
 })
+
 
 app.use(errorHandler);
 

@@ -57,3 +57,4 @@
 20230209	15:05:27	5614786c-6cac-4541-821b-381c61531b0e	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
 20230209	15:05:28	f4a28595-f5fb-453e-a867-670f887c5d2d	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
 20230209	15:08:19	660d1a5d-f47f-4af4-991e-353245eec0b9	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
+20230209	19:45:55	96bdcdd5-4b38-49d1-9927-c31791531817	TypeError: Cannot destructure property 'audio' of 'response.body' as it is undefined.	POST	/notes/content	http://localhost:3000

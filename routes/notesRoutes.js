@@ -8,5 +8,8 @@ router.route("/")
     .patch(notesController.updateUserNotes)
     .delete(notesController.deleteUserNotes);
 
-    
+router.route("/content")
+    .get(notesController.getNoteFromAudio)
+    .post(notesController.postNoteFromAudio)
+
 module.exports = router;
