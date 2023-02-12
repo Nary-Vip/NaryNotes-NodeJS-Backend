@@ -7,7 +7,7 @@ import sys
 import torch
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Tokenizer
 
-file_name = 'E:/Projects/Personal Project/NaryNotes/narynotes-backend/model/recorder.wav'
+file_name = 'E:/Projects/Personal Project/NaryNotes/narynotes-backend/model/assets/recorder.wav'
 
 data=wavfile.read(file_name)
 framerate=data[0]

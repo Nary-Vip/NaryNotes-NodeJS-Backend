@@ -58,3 +58,4 @@
 20230209	15:05:28	f4a28595-f5fb-453e-a867-670f887c5d2d	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
 20230209	15:08:19	660d1a5d-f47f-4af4-991e-353245eec0b9	JsonWebTokenError: jwt must be provided	GET	/notes?token=	http://localhost:3000
 20230209	19:45:55	96bdcdd5-4b38-49d1-9927-c31791531817	TypeError: Cannot destructure property 'audio' of 'response.body' as it is undefined.	POST	/notes/content	http://localhost:3000
+20230212	18:38:53	33c071ec-f820-4719-aeb5-0ef0d3372a9d	MulterError: Unexpected field	POST	/imagetext	http://localhost:3000

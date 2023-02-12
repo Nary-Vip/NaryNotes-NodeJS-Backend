@@ -14,13 +14,24 @@ const { PythonShell } = require('python-shell');
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
-      callback(null, 'model/');
+      callback(null, 'model/assets/');
     },
     filename: function (req, file, callback) {
       callback(null, "recorder.wav");
     }
   })
-const upload = multer({ storage: storage });
+
+  const storageAudio = multer.diskStorage({
+    destination: function (req, file, callback) {
+      callback(null, 'model/assets/');
+    },
+    filename: function (req, file, callback) {
+        console.log(file.fieldname, "===");
+      callback(null, file.originalname);
+    }
+  })
+const uploadAudio = multer({ storage: storage });
+const uploadImage = multer({ storage: storageAudio });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -37,12 +48,13 @@ app.use(express.json()); //inbuilt middleware which enables the server to parse 
 
 // app.use(cookieParser()); //third party middleware
 
-app.post('/speechtext', upload.single("audioFile"), async (req, response) => {
+app.post('/speechtext', uploadAudio.single("audioFile"), async (req, response) => {
     console.log(req.file);
     let transcribedText = null;
     let bitRate = null;
     let options = {
         scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
+        
     }
     PythonShell.run("speechToText.py", options, (err, res) => {
         if (err) {
@@ -52,7 +64,26 @@ app.post('/speechtext', upload.single("audioFile"), async (req, response) => {
             console.log(res);
             transcribedText = res[0];
             bitRate = res[1];
-            response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+            response.status(200).json({ "message": "Successfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+        }
+    });
+});
+
+app.post('/imagetext', uploadImage.single("image"), async (req, response) => {
+    console.log(req.file, "===");
+    let transcribedText = null;
+    let options = {
+        scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model",
+        args: [req.file.originalname]
+    }
+    PythonShell.run("tessaract.py", options, (err, res) => {
+        if (err) {
+            console.log(err);
+            response.status(500).json({ message: "Something went worng", "error": err });
+        } if (res) {
+            console.log(res);
+            transcribedText = res;
+            response.status(200).json({ "message": "Successfully transcribed", "text": transcribedText});
         }
     });
 });
