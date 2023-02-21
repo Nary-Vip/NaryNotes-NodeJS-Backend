@@ -34,6 +34,7 @@ router.post("/login", async (req, res) => {
             "mobileNumber": user[0].mobileNumber,
             "emailId": emailId,
             "access_token": token,
+            "profile": user[0].profile,
             "profileStatus": (user[0].firstName === undefined || user[0].lastName === undefined || user[0].age === undefined || user[0].country === undefined
                 || user[0].state === undefined || user[0].roles === undefined || user[0].mobileNumber === undefined || user[0].emailId === undefined) ? false : true
         }

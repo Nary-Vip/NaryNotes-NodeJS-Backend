@@ -2,6 +2,10 @@ const Note = require("../models/Note");
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
+const Jimp = require("jimp");
+const { getStorage, ref } =  require("firebase/storage");
+const { PythonShell } = require('python-shell');
+var fs = require('fs');
 
 //Fetching user Notes using GET request
 const getUserNotes = asyncHandler(async (req, res) => {
@@ -97,50 +101,32 @@ const deleteUserNotes = asyncHandler(async (req, res) => {
     res.json({ message: `Note ${result.title} with ID ${result.id} deleted` });
 });
 
-//Get Note from audio
-const getNoteFromAudio = asyncHandler(async (req, response) => {
+
+//Image to Text
+const imageToText = asyncHandler(async (req, response) => {
+    const { token, imageUrl } = req.body;
+    const storage = getStorage();
+    // const JWT_sec = process.env.JWTSEC;
+    // const tok2usr = jwt.verify(token, JWT_sec);
+    // const userId = tok2usr.id;
+    const httpsReference = ref(storage, imageUrl);
+
     let transcribedText = null;
-    let bitRate = null;
     let options = {
-        scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
+        scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model",
+        args: [imageUrl]
     }
-    PythonShell.run("speechToText.py", options, (err, res) => {
+    PythonShell.run("imageToText.py", options, (err, res) => {
         if (err) {
             console.log(err);
             response.status(500).json({ message: "Something went worng", "error": err });
         } if (res) {
             console.log(res);
-            transcribedText = res[0];
-            bitRate = res[1];
-            response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
+            transcribedText = res;
+            response.status(200).json({ "message": "Successfully transcribed", "text": transcribedText.join("")});
         }
     });
 });
 
 
-//Get Note from audio
-const postNoteFromAudio = asyncHandler( async (req, response) => {
-    // const { audio } = req.body;
-    // console.log(req.body);
-    console.log("==============");
-    console.log(req.file, "=========");
-
-    // let transcribedText = null;
-    // let bitRate = null;
-    // let options = {
-    //     scriptPath: "E:/Projects/Personal Project/NaryNotes/narynotes-backend/model"
-    // }
-    // PythonShell.run("speechToText.py", options, (err, res) => {
-    //     if (err) {
-    //         console.log(err);
-    //         response.status(500).json({ message: "Something went worng", "error": err });
-    //     } if (res) {
-    //         console.log(res);
-    //         transcribedText = res[0];
-    //         bitRate = res[1];
-    //         response.status(200).json({ "message": "Sunccessfully transcribed", "text": transcribedText, "bit-rate": bitRate });
-    //     }
-    // });
-});
-
-module.exports = { getUserNotes, addUserNotes, updateUserNotes, deleteUserNotes, getNoteFromAudio, postNoteFromAudio };
+module.exports = { getUserNotes, addUserNotes, updateUserNotes, deleteUserNotes, imageToText };

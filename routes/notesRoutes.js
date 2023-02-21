@@ -9,7 +9,7 @@ router.route("/")
     .delete(notesController.deleteUserNotes);
 
 router.route("/content")
-    .get(notesController.getNoteFromAudio)
-    .post(notesController.postNoteFromAudio)
+    // .get(notesController.getNoteFromAudio)
+    .post(notesController.imageToText)
 
 module.exports = router;

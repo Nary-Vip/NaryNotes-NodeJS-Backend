@@ -23,6 +23,7 @@ const getUserDetails = asyncHandler(async (req, res) => {
         "mobileNumber": user.mobileNumber,
         "emailId": user.emailId,
         "access_token": token,
+        "profile": user.profile,
         "profileStatus": (user.firstName === undefined || user.lastName === undefined || user.age === undefined || user.country === undefined
             || user.state === undefined || user.roles === undefined || user.mobileNumber === undefined || user.emailId === undefined) ? false : true
     }
@@ -56,17 +57,17 @@ const createNewUser = asyncHandler(async (req, res) => {
 //Profile update
 const updateUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, roles, mobileNumber, emailId, age, country,
-        state, token } = req.body;
+        state, token, profile } = req.body;
     const JWT_sec = process.env.JWTSEC;
     const tok2usr = jwt.verify(token, JWT_sec);
     const usr_email = tok2usr.emailId;
     const obj = {
         firstName, lastName, roles, mobileNumber, emailId, age, country,
-        state, token
+        state, token, profile
     };
     const userObject = {
         firstName, lastName, roles, mobileNumber, emailId, age, country,
-        state, 'access_token': token, 'profileStatus': true
+        state, 'access_token': token, 'profileStatus': true, profile
     };
 
     if (Boolean(firstName) && Boolean(lastName) && Boolean(roles) && Boolean(mobileNumber) && Boolean(emailId) && Boolean(age) && Boolean(country) && Boolean(state)) {
